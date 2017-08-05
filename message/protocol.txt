@@ -1,0 +1,34 @@
+异步 websocket 消息
+关联客户端和物理链接
+{"action":"RegisterClient","paras":{"id":38,"token":"69f87283ac89e4e0a758bdbefe174ad4"}}
+广播消息到某类客户端
+{"action":"BroadCast","paras":{"appId":"59c2b964383540df92cbc430cd2843c1","appSecret":"a4749057794746d5b953dc2493a3403f","content":"发给自己tag的广播消息","toClientTag":"Driver"}}
+定向推送消息给客户端
+{"action":"Notify","paras":{"appId":"59c2b964383540df92cbc430cd2843c1","appSecret":"a4749057794746d5b953dc2493a3403f","content":"通过服务平台发给自己的定向消息","toClientId":38}}
+
+创建两个客户端的会话通道
+{"action":"CreateChatChannel","paras":{"appId":"59c2b964383540df92cbc430cd2843c1","appSecret":"a4749057794746d5b953dc2493a3403f","fromClientId":38,"toClientId":38}}
+
+点对点通信
+{"action":"SendMessage","paras":{"content":"点对点通信","fromClientId":38,"toClientId":38}}
+
+注册为平台客户端，用于接收客户端上报的消息
+{"action":"RegisterPlatformClient","paras":{"appId":"59c2b964383540df92cbc430cd2843c1","appSecret":"a4749057794746d5b953dc2493a3403f"}}
+
+客户端上报消息给平台
+{"action":"Report","paras":{"content":"测试上报消息","id":38,"token":"69f87283ac89e4e0a758bdbefe174ad4"}}
+
+确认消息已经接收
+{"action":"Acknowledge","paras":{"msgKey":"121131313131"}}
+
+同步http调用
+1、创建客户端
+url http://host:port/service/create_client.htm
+method post
+parameters:appId,appSecret, name,tag
+
+2、获取客户端（客户端token）
+url http://host:port/service/get_client_token.htm
+method post
+parameters:appId,appSecret, clientId
+

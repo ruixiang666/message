@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>运营管理后台</title>
+	<link rel="stylesheet" type="text/css" href="/res/css/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/res/css/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="/res/css/common.css">
+	<script type="text/javascript" src="/res/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/res/js/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/res/js/easyui-lang-zh_CN.js"></script>
+	<script>
+	</script>
+</head>
+<body>
+	<div style="margin:20px 0;"></div>
+		<div style="padding:10px 60px 20px 60px">
+	    	<table cellpadding="5" class="grid" width="800">
+	    	<tr>
+	    	<th>机构名称</th><th>机构地址</th><th>联系人</th><th>联系人电话</th><th>appId</th><th>app secret</th>
+	    	</tr>
+	    	#set($i=$driverPage.size*$driverPage.number)
+	    	#foreach($app in $apps)
+	    		<tr>
+	    		<td>$app.orgName</td><td>$app.orgAddress</td><td>$app.contactName</td><td>$app.contactPhone</td><td>$app.appId</td><td><a href="javascript:alert('$app.appSecret')">查看secret</a></td>
+	    		</tr>
+	    	#end
+	    	</table>
+	    	<div style="text-align:left;padding:5px">
+	    	<a href="add_app.htm" class="easyui-linkbutton"  onclick="();">增加</a>
+	    </div>
+	    </div>
+		</div>
+	    </div>
+	</div>
+</body>
+</html>

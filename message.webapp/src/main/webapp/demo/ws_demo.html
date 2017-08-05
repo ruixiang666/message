@@ -1,0 +1,78 @@
+<!DOCTYPE html>  
+<head>
+<meta charset="utf-8" />  
+<title>WebSocket Test</title>  
+<script language="javascript"type="text/javascript">  
+    var wsUri ="ws://m.hi-travel.cn:9000/"; 
+    var output;  
+    
+    function init() { 
+        output = document.getElementById("output"); 
+        testWebSocket(); 
+    }  
+ 
+    function testWebSocket() { 
+        websocket = new WebSocket(wsUri); 
+        websocket.onopen = function(evt) { 
+            onOpen(evt) 
+        }; 
+        websocket.onclose = function(evt) { 
+            onClose(evt) 
+        }; 
+        websocket.onmessage = function(evt) { 
+            onMessage(evt) 
+        }; 
+        websocket.onerror = function(evt) { 
+            onError(evt) 
+        }; 
+    }  
+ 
+    function onOpen(evt) { 
+    	var regMsg='{"action":"RegisterClient","paras":{"id":23,"token":"70dcd5ecdca90b9892b2a482cebd4e89"}}';
+    	doSend(regMsg);
+    	
+    	var m1 ='{"action":"Report","paras":{"content":"测试上报消息","id":38,"token":"69f87283ac89e4e0a758bdbefe174ad4"}}';
+        doSend(m1);
+        writeToScreen("连接"); 
+         //doSend("WebSocket rocks"); 
+    }  
+ 
+    function onClose(evt) { 
+        writeToScreen("DISCONNECTED"); 
+    }  
+ 
+    function onMessage(evt) { 
+        writeToScreen('<span style="color: blue;">receive: '+ evt.data+'</span>'); 
+        //websocket.close(); 
+    }  
+ 
+    function onError(evt) { 
+        writeToScreen('<span style="color: red;">ERROR:</span> '+ evt.data); 
+    }  
+ 
+    function doSend(message) { 
+        writeToScreen("SENT: " + message);  
+        websocket.send(message); 
+    }  
+ 
+    function writeToScreen(message) { 
+        var pre = document.createElement("p"); 
+        pre.style.wordWrap = "break-word"; 
+        pre.innerHTML = message; 
+        output.appendChild(pre); 
+    }  
+ 
+    window.addEventListener("load", init, false);  
+    
+    function test(){
+    	doSend('{name:"测试"}');
+    }
+    
+</script>
+</head>
+<body>
+</body>
+<h2>WebSocket Test</h2>  
+<input type="button" value="测试" onclick="test();">
+<div id="output"></div>  
+</html>

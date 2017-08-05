@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:transaction="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/task  
+		http://www.springframework.org/schema/task/spring-task-3.1.xsd">
+	
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:db.properties</value>
+			</list>
+		</property>
+	</bean>
+	<context:annotation-config />
+	<aop:aspectj-autoproxy/> 
+	<task:annotation-driven/> 
+	<context:component-scan base-package="cn.orgid.travel.domain" />
+	<bean id="webSocketConf" class="cn.orgid.message.client.WebSocketConf" init-method="init" >
+		<property name="wsHttpServiceBaseUrl" value="${ws.http.service.base.url}"></property>
+		<property name="wsCreateClientUri" value="${ws.http.service.create_client.uri}"></property>
+		<property name="wsClientTokenUrl" value="${ws.http.service.get_client_token.uri}"></property>
+		<property name="wsUrl" value="${ws.url}"></property>
+		<property name="wsAppId" value="${ws.appid}"></property>
+		<property name="wsSecret" value="${ws.appsecret}"></property>
+		<property name="checkPongTimeInterval" value="${ws.client.checkPongTimeInterval}"></property>
+		<property name="pingTimeInterval" value="${ws.client.pingTimeInterval}"></property>
+		<property name="pongTimeOut" value="${ws.wait.pongTimeOut}"></property>
+		<property name="debug" value="${ws.debug}"></property>
+	</bean>
+	<bean class="cn.orgid.message.client.WebSocketPlatformClient" init-method="init">
+		<property name="socketConf" ref="webSocketConf"></property>
+	</bean>
+	<bean class="cn.orgid.message.client.WebSocketHttpClient">
+		<property name="socketConf" ref="webSocketConf"></property>
+	</bean>
+</beans>

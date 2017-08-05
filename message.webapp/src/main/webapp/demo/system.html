@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>消息发送</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.min.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		var socket;
+		function createClient() {
+			if (!window.WebSocket) {
+				return;
+			}
+			var appId=$("#appId").val();
+			var appSecret=$("#appSecret").val();
+			var name=$("#clientName").val();
+			var typeCode=$("#typeCode").val();
+			var json = '{"action":"CreateClient","paras":{"appId":"'+appId+'","appSecret":"'+appSecret+'","name":"'+name+'","typeCode":"'+typeCode+'"}}';
+			if (socket.readyState == WebSocket.OPEN) {
+				socket.send(json);
+				$('#req').html(json);
+			} else {
+				alert("连接没有开启.");
+			}
+		}
+		
+		
+		function registerClient() {
+			if (!window.WebSocket) {
+				return;
+			}
+			var id=$("#clientId").val();
+			var token=$("#token").val();
+			var json = '{"action":"registerClient","paras":{"id":"'+id+'","token":"'+token+'"}}';
+			if (socket.readyState == WebSocket.OPEN) {
+				socket.send(json);
+				$('#req').html(json);
+			} else {
+				alert("连接没有开启.");
+			}
+		}
+		function closeConnection(){
+			socket.close();
+		}
+		function openConnection(){
+			if (!window.WebSocket) {
+				window.WebSocket = window.MozWebSocket;
+			}
+			if (window.WebSocket) {
+				var url = $("#url").val();
+				socket = new WebSocket(url);
+				socket.onmessage = function(event) {
+					 //var r = JSON.parse(event.data); 
+					 $('#msg').html(event.data);
+				};
+				socket.onopen = function(event) {
+					//alert("连接开启!");
+					 $('#msg').html("连接开启!");
+				};
+				socket.onclose = function(event) {
+					$('#msg').html("连接关闭!");
+					//alert("连接关闭!");
+				};
+			} else {
+				alert("你的浏览器不支持！");
+			}
+		}
+	</script>
+	<p>创建客户端测试</p>
+	<form onsubmit="return false;">
+	    客户端登录<br>
+	    url:<input type="text" name="url" id="url" value="ws://127.0.0.1:2048/ws"><input type="button" value="连接服务器" onclick="openConnection()"><br>
+		appId：<input type="text" name="appId" id="appId" value="404f3eea8a004a5ebef7f91f5d45ba7f"><br>
+		appSecret：<input type="text" name="appSecret" id="appSecret" value="1b6911c5fa3641ceb721db9c2c6b6d90"><br>
+		clientName:<input type="text" name="clientName" id="clientName" value="测试">
+		clientType:<input type="text" name="typeCode" id="typeCode" value="customer">
+		<input type="button" value="创建客户端" onclick="createClient()">
+	</form>
+	<p>客户端注册到服务器测试</p>
+	<form onsubmit="return false;">
+	    客户端登录<br>
+		clientId：<input type="text" name="clientId" id="clientId" value=""><br>
+		token：<input type="text" name="token" id="token" value=""><br>
+		<input type="button" value="注册到服务器" onclick="registerClient()">
+	</form>
+	<br>
+	<p>
+	请求信息：<br>
+	<span id="req"></span>
+	</P>
+	<p>
+	返回信息：<br>
+	<span id="msg"></span>
+	</p>
+	
+	
+	
+</body>
+</html>

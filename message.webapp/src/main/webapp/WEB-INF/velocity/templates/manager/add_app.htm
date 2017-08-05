@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>运营管理后台</title>
+	<link rel="stylesheet" type="text/css" href="/res/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/res/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="/res/css/common.css">
+	<script type="text/javascript" src="/res/easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="/res/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/res/easyui/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+	<div style="margin:20px 0;"></div>
+	<div class="easyui-panel" title="新增应用" style="width:800px">
+		<div style="padding:10px 60px 20px 60px">
+	    <form id="ff" method="post" action="save_app.htm">
+	    	<table cellpadding="5">
+	    		<tr>
+	    			<td>机构名称:</td>
+	    			<td><input class="easyui-textbox"  name="orgName" id="orgName" data-options="required:true"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>机构地址:</td>
+	    			<td><input class="easyui-textbox"  name="orgAddress" id="orgAddress" data-options="required:true"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>联系人:</td>
+	    			<td><input class="easyui-textbox"  name="contactName" id="orgNacontactNameme" data-options="required:true"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>联系人电话:</td>
+	    			<td><input class="easyui-textbox"  name="contactPhone" id="contactPhone" data-options="required:true"></input></td>
+	    		</tr>
+	    		
+	    	</table>
+	    </form>
+	    <div style="text-align:center;padding:5px">
+	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm();">保 存</a>
+	    </div>
+	    </div>
+	</div>
+	<script>
+		function submitForm(){
+			$("#ff").submit();
+		}
+	</script>
+</body>
+</html>

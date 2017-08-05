@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>消息发送</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.min.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		var socket;
+		function login() {
+			if (!window.WebSocket) {
+				return;
+			}
+			var clientId=$("#clientId").val();
+			var connectionToken=$("#connectionToken").val();
+			var json = '{"event":"RegisterClient","request":{"clientId":"'+clientId+'","connectionToken":"'+connectionToken+'"}}';
+			if (socket.readyState == WebSocket.OPEN) {
+				socket.send(json);
+				$('#req').html(json);
+			} else {
+				alert("连接没有开启.");
+			}
+		}
+		
+		function taxi() {
+		
+			var clientId=$("#clientId").val();
+			var connectionToken=$("#connectionToken").val();
+			if (!window.WebSocket) {
+				return;
+			}
+			var longitude=$("#longitude").val();
+			var latitude=$("#latitude").val();
+			var json = '{"event":"message","request":{"clientId":"'+clientId+'","connectionToken":"'+connectionToken+'","message":{"type":"RentTaxi","longitude":"'+longitude+'","latitude":"'+latitude+'"}}}';
+			if (socket.readyState == WebSocket.OPEN) {
+				socket.send(json);
+				$('#req').html(json);
+			} else {
+				alert("连接没有开启.");
+			}
+		}
+		
+		function closeConnection(){
+			socket.close();
+		}
+		function openConnection(){
+			if (!window.WebSocket) {
+				window.WebSocket = window.MozWebSocket;
+			}
+			if (window.WebSocket) {
+				var url = $("#url").val();
+				socket = new WebSocket(url);
+				socket.onmessage = function(event) {
+					 var r = JSON.parse(event.data); 
+					 $('#msg').html(r.msg);
+				};
+				socket.onopen = function(event) {
+					//alert("连接开启!");
+					 $('#msg').html("连接开启!");
+				};
+				socket.onclose = function(event) {
+					$('#msg').html("连接关闭!");
+					//alert("连接关闭!");
+				};
+			} else {
+				alert("你的浏览器不支持！");
+			}
+		}
+	</script>
+	测试消息从客户端发送到服务器
+	<form onsubmit="return false;">
+	    客户端登录<br>
+	    url:<input type="text" name="url" id="url" value="ws://www.orgid.cn:9000/"><input type="button" value="连接服务器" onclick="openConnection()"><br>
+		id：<input type="text" name="clientId" id="clientId" value="1"><br>
+		token：<input type="text" name="connectionToken" id="connectionToken" value="5cd360ab-0228-4ce0-9235-3d92e1557c4a"><br>
+		<input type="button" value="注册" onclick="login()"><input type="button" value="注销" onclick="closeConnection()">
+	</form>
+	
+	<form >
+	    叫车<br>
+	   
+		经度：<input type="text" name="longitude" id="longitude" value="109"><br>
+		纬度：<input type="text" name="latitude" id="latitude" value="30"><br>
+		<input type="button" value="我要乘车" onclick="taxi()">
+	</form>
+	<br>
+	
+	<span id="req"></span><br>
+	<span id="msg"></span>
+	
+	
+	
+</body>
+</html>
