@@ -62,6 +62,11 @@ serverUrl=ws://127.0.0.1:9000 #集群服务器地址
 9.使用中需要帮助的话可以加本人qq 726318161 咨询，加qq时请注明 消息平台开源项目技术交流
 
 10.通讯协议
+客户端和服务器之间的通讯使用http(https) +json,ws(wss)+json的方式
+
+具体的协议参考
+
+https://github.com/ruixiang666/message/blob/master/protocol.txt
 
 
 
